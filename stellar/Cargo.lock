@@ -532,6 +532,7 @@ dependencies = [
 name = "escrow-factory"
 version = "0.0.0"
 dependencies = [
+ "escrow",
  "soroban-sdk",
 ]
 

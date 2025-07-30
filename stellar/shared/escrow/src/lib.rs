@@ -4,7 +4,9 @@ use soroban_sdk::{contracttype, xdr::ToXdr, Address, BytesN, Env};
 #[derive(Clone)]
 #[contracttype]
 pub enum DataKey {
-    ImmutablesHash,
+    Factory,
+    EscrowSrcHash,
+    EscrowDstHash,
 }
 
 #[derive(Clone)]
@@ -39,8 +41,8 @@ pub struct Timelocks {
 }
 
 impl Timelocks {
-    pub fn is_stage_time(&self, env: &Env, stage: Stage, time_bound_kind: TimeBoundKind) -> bool {
-        let time_bound_timestamp = match stage {
+    pub fn get_stage_time(&self, stage: Stage) -> u32 {
+        match stage {
             Stage::SrcWithdrawal => self.deployed_at + self.src_withdrawal,
             Stage::SrcPublicWithdrawal => self.deployed_at + self.src_public_withdrawal,
             Stage::SrcCancellation => self.deployed_at + self.src_cancellation,
@@ -48,12 +50,20 @@ impl Timelocks {
             Stage::DstWithdrawal => self.deployed_at + self.dst_withdrawal,
             Stage::DstPublicWithdrawal => self.deployed_at + self.dst_public_withdrawal,
             Stage::DstCancellation => self.deployed_at + self.dst_cancellation,
-        } as u64;
+        }
+    }
+
+    pub fn is_stage_time(&self, env: &Env, stage: Stage, time_bound_kind: TimeBoundKind) -> bool {
+        let time_bound_timestamp = self.get_stage_time(stage) as u64;
         let ledger_timestamp = env.ledger().timestamp();
         match time_bound_kind {
             TimeBoundKind::Before => ledger_timestamp < time_bound_timestamp,
             TimeBoundKind::After => ledger_timestamp >= time_bound_timestamp,
         }
+    }
+
+    pub fn set_deployed_at(mut self, timestamp: u32) {
+        self.deployed_at = timestamp;
     }
 }
 
@@ -78,9 +88,9 @@ impl Immutables {
 }
 
 pub fn valid_immutables(env: &Env, immutables: Immutables) -> bool {
-    let maybe_stored_immutables_hash = env
+    let factory = env
         .storage()
         .instance()
-        .get::<DataKey, BytesN<32>>(&DataKey::ImmutablesHash);
-    maybe_stored_immutables_hash.is_some() && maybe_stored_immutables_hash.unwrap() == immutables.hash(env)
+        .get::<DataKey, Address>(&DataKey::Factory).unwrap();
+    env.deployer().with_address(factory, immutables.hash(env)).deployed_address() == env.current_contract_address()
 }

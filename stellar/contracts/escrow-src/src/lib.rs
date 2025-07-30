@@ -1,5 +1,5 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, token, Address, Bytes, BytesN, Env};
+use soroban_sdk::{contract, contractimpl, token, Address, Bytes, Env};
 use escrow::{valid_immutables, Immutables, Stage, TimeBoundKind, DataKey};
 
 #[contract]
@@ -8,15 +8,8 @@ pub struct EscrowSrc;
 
 #[contractimpl]
 impl EscrowSrc {
-    pub fn __constructor(env: Env, immutables: Immutables) {
-        immutables.maker.require_auth();  // needed only if contract has some permission to manage user funds...?
-        if env.storage().instance().get::<DataKey, BytesN<32>>(&DataKey::ImmutablesHash).is_some() {
-            panic!("contract already initialized")
-        }
-        env.storage().instance().set(&DataKey::ImmutablesHash, &immutables.clone().hash(&env));
-        let contract_address = env.current_contract_address();
-        let token_client = token::Client::new(&env, &immutables.token);
-        token_client.transfer(&immutables.maker, &contract_address, &immutables.amount);
+    pub fn __constructor(env: Env, factory: Address) {
+        env.storage().instance().set(&DataKey::Factory, &factory);
     }
     
     pub fn withdraw(env: Env, secret: Bytes, immutables: Immutables) {

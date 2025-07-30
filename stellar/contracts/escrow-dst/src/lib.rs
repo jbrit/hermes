@@ -1,16 +1,13 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, token, Bytes, BytesN, Env};
+use soroban_sdk::{contract, contractimpl, token, Address, Bytes, Env};
 use escrow::{valid_immutables, Immutables, Stage, TimeBoundKind, DataKey};
 
 #[contract]
 pub struct EscrowDst;
 #[contractimpl]
 impl EscrowDst {
-    pub fn __constructor(env: Env, immutables: Immutables) {
-        if env.storage().instance().get::<DataKey, BytesN<32>>(&DataKey::ImmutablesHash).is_some() {
-            panic!("contract already initialized")
-        }
-        env.storage().instance().set(&DataKey::ImmutablesHash, &immutables.hash(&env));
+    pub fn __constructor(env: Env, factory: Address) {
+        env.storage().instance().set(&DataKey::Factory, &factory);
     }
 
     pub fn withdraw(env: Env, secret: Bytes, immutables: Immutables) {
