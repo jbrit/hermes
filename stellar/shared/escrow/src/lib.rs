@@ -30,14 +30,14 @@ pub enum Stage {
 #[derive(Clone)]
 #[contracttype]
 pub struct Timelocks {
-    src_withdrawal: u32,
-    src_public_withdrawal: u32,
-    src_cancellation: u32,
-    src_public_cancellation: u32,
-    dst_withdrawal: u32,
-    dst_public_withdrawal: u32,
-    dst_cancellation: u32,
-    deployed_at: u32,
+    pub src_withdrawal: u32,
+    pub src_public_withdrawal: u32,
+    pub src_cancellation: u32,
+    pub src_public_cancellation: u32,
+    pub dst_withdrawal: u32,
+    pub dst_public_withdrawal: u32,
+    pub dst_cancellation: u32,
+    pub deployed_at: u32,
 }
 
 impl Timelocks {
