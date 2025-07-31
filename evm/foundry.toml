@@ -1,6 +1,9 @@
 [profile.default]
-src = "src"
+src = "contracts"
 out = "out"
 libs = ["lib"]
+via-ir = true
+evm_version = 'shanghai'
+solc_version = '0.8.23'
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
