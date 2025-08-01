@@ -13,7 +13,6 @@ impl EscrowFactory {
     }
 
     pub fn create_src_escrow(env: Env, immutables: Immutables) -> Address {
-        // TODO: receive and authenticate signed maker order here instead
         let factory = env.current_contract_address();
         let src_wasm_hash = env.storage().instance().get::<DataKey, BytesN<32>>(&DataKey::EscrowSrcHash).unwrap();
         let token_client = token::Client::new(&env, &immutables.token);

@@ -3,11 +3,38 @@ resolver = "2"
 members = [
   "shared/escrow",
   "contracts/*",
+  "packages/access",
+  "packages/contract-utils",
+  "packages/macros",
+  "packages/tokens",
+  "packages/test-utils/*",
 ]
+
+[workspace.package]
+authors = ["jibola"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/jbrit/hermes"
+keywords = ["stellar", "soroban", "smart-contracts", "standards", "htlc", "fusion+"]
+categories = ["no-std", "wasm"]
+version = "0.0.1"
 
 [workspace.dependencies]
 soroban-sdk = "22.0.0"
+proc-macro2 = "1.0"
+proptest = "1"
+quote = "1.0"
+syn = { version = "2.0", features = ["full"] }
+soroban-test-helpers = "0.2.3"
+hex-literal = "0.4.1"
+
 escrow = {path = "./shared/escrow"}
+
+stellar-access = { path = "./packages/access" }
+stellar-contract-utils = { path = "./packages/contract-utils" }
+stellar-event-assertion = { path = "./packages/test-utils/event-assertion" }
+stellar-tokens = { path = "./packages/tokens" }
+stellar-macros = { path = "./packages/macros" }
 
 [profile.release]
 opt-level = "z"

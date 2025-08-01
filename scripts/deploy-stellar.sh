@@ -9,7 +9,9 @@ DST_WASM="./target/wasm32v1-none/release/escrow_dst.wasm"
 FACTORY_WASM="./target/wasm32v1-none/release/escrow_factory.wasm"
 
 cd stellar
-stellar contract build
+stellar contract build --package escrow-src
+stellar contract build --package escrow-dst
+stellar contract build --package escrow-factory
 
 echo "Uploading escrow_src.wasm..."
 SRC_HASH=$(stellar contract upload \
