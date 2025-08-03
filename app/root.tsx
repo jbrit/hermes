@@ -49,7 +49,7 @@ const config = getDefaultConfig({
   appName: "hermes",
   projectId: "d89347ddc8ec2c65526a6e81cf051539",
   chains: [sepolia],
-  ssr: true,
+  ssr: false,
 });
 const queryClient = new QueryClient();
 export default function App() {

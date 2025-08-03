@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "hermes",
   "private": true,
   "type": "module",
   "scripts": {
@@ -10,16 +10,23 @@
     "typecheck": "react-router typegen && tsc"
   },
   "dependencies": {
+    "@creit.tech/stellar-wallets-kit": "^1.7.7",
     "@headlessui/react": "^2.2.7",
     "@rainbow-me/rainbowkit": "^2.2.8",
     "@react-router/node": "^7.7.1",
     "@react-router/serve": "^7.7.1",
+    "@stellar/freighter-api": "^4.1.0",
+    "@stellar/stellar-sdk": "^13.3.0",
     "@tanstack/react-query": "^5.83.0",
     "ethers": "^6.15.0",
     "isbot": "^5.1.27",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.7.1",
+    "stellar-dummy-token": "./packages/stellar-dummy-token",
+    "stellar-escrow-dst": "./packages/stellar-escrow-dst",
+    "stellar-escrow-factory": "./packages/stellar-escrow-factory",
+    "stellar-escrow-src": "./packages/stellar-escrow-src",
     "tsx": "^4.20.3",
     "viem": "2.x",
     "wagmi": "^2.16.0"
