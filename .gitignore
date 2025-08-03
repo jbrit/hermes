@@ -7,3 +7,5 @@
 /types/ethers-contracts/
 
 .env
+.vscode/
+test_snapshots/

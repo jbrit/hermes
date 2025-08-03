@@ -41,7 +41,7 @@ export function useTokenBalance(userAddress: string | undefined) {
     queryKey: ['token-balance', userAddress],
     queryFn: () => getTokenBalance(userAddress!),
     enabled: !!userAddress,
-    staleTime: 30_000,
+    staleTime: 3000,
   });
 }
 
@@ -64,7 +64,7 @@ export function useStellarTokenBalance(accountId: string | null) {
     queryKey: ['stellar-token-balance', accountId],
     queryFn: () => getStellarContractTokenBalance(accountId!),
     enabled: !!accountId,
-    staleTime: 300_000,
+    staleTime: 3000,
   });
 }
 
